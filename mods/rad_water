@@ -1,0 +1,66 @@
+// === Light Water ===
+elements.light_water = {
+    color: "#88cfff",
+    behavior: behaviors.LIQUID,
+    category: "liquids",
+    state: "liquid",
+    density: 1000,
+    tempHigh: 100,
+    stateHigh: "steam",
+    reactions: {
+        uranium: { elem1: "light_water_radioactive", elem2: null },
+        plutonium: { elem1: "light_water_radioactive", elem2: null },
+    }
+};
+
+elements.light_water_radioactive = {
+    color: "#00ffcc",
+    behavior: behaviors.LIQUID,
+    category: "liquids",
+    state: "liquid",
+    density: 1000,
+    tempHigh: 100,
+    stateHigh: "radioactive_steam",
+    tick: function(pixel) {
+        if (Math.random() < 0.01) {
+            pixel.color = pixelColorPick(pixel, "#00ffcc");
+        }
+    }
+};
+
+// === Heavy Water ===
+elements.heavy_water = {
+    color: "#aaffff",
+    behavior: behaviors.LIQUID,
+    category: "liquids",
+    state: "liquid",
+    density: 1100,
+    tempHigh: 101, // slightly higher boiling point
+    stateHigh: "heavy_steam",
+    reactions: {
+        uranium: { elem1: "heavy_water", elem2: null }, // no reaction
+        plutonium: { elem1: "heavy_water", elem2: null },
+    }
+};
+
+// === Steam Types ===
+elements.radioactive_steam = {
+    color: ["#ccff00", "#ffff00"],
+    behavior: behaviors.GAS,
+    category: "gases",
+    state: "gas",
+    density: 0.6,
+    tempLow: 99,
+    stateLow: "light_water_radioactive",
+    radioactive: true
+};
+
+elements.heavy_steam = {
+    color: "#eeeeff",
+    behavior: behaviors.GAS,
+    category: "gases",
+    state: "gas",
+    density: 0.7,
+    tempLow: 100,
+    stateLow: "heavy_water"
+};
